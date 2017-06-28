@@ -1,41 +1,36 @@
 package com.company;
 
-import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
-import com.sun.xml.internal.stream.util.ThreadLocalBufferAllocator;
 
-import java.lang.reflect.GenericArrayType;
 import java.util.Random;
 
 public class Wall implements Runnable {
     Terminal board;
     int y;
-    int playerY;
+    Player p;
 
-    public void setPlayerY(int playerY) {
-        this.playerY = playerY;
-    }
-
-    Wall(Terminal board, int y) {
+    Wall(Terminal board, int y, Player p) {
         this.board = board;
         this.y = y;
+        this.p = p;
     }
 
     public void run() {
         Random ran = new Random();
         int hole;
         int score=0;
-        boolean gameover = false;
+        int speed = 100;
+        boolean gameon = true;
         //Player endgame = new Player(3,y,board);
-        while (true) {
-            hole = ran.nextInt(16);
+        while (gameon) {
             //hole=0;
+            hole = ran.nextInt(16);
             String scoreOutput="Score: " + score;
             Output.ScreenPrint(3,25,scoreOutput,board);
             for (int x = 90; x > 2; x--) {
-                System.out.println(playerY);
-                if((!(playerY == hole || playerY == hole+1 || playerY == hole+2)) && x == 3) {
-                    gameover = true;
+                if(!(p.getY() >= hole && p.getY() <= hole+2) && x == 3) {
+                    gameon = false;
+                    p.die();
                     break;
                 }
                 for (int counter = 0; counter <= 20; counter++) {
@@ -45,7 +40,7 @@ public class Wall implements Runnable {
                     }
                 }
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(speed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -56,11 +51,11 @@ public class Wall implements Runnable {
                     }
                 }
             }
-            if(gameover)
+            if(!gameon)
                 break;
             score++;
+                speed *=0.9;
         }
-        //endgame.setIsdead(2);
-        GameOver.EndGame(board);
+        GameOver.endGame(board, p.getY(), 3, score);
     }
 }
