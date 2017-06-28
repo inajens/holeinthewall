@@ -8,6 +8,7 @@ public class Wall implements Runnable {
     Terminal board;
     int y;
     Player p;
+    boolean reset;
 
     Wall(Terminal board, int y, Player p) {
         this.board = board;
@@ -25,9 +26,11 @@ public class Wall implements Runnable {
         while (gameon) {
             //hole=0;
             hole = ran.nextInt(16);
+            board.applyForegroundColor(255, 255, 255);
             String scoreOutput="Score: " + score;
             Output.ScreenPrint(3,25,scoreOutput,board);
             for (int x = 90; x > 2; x--) {
+                board.applyForegroundColor(255, 69, 0);
                 if(!(p.getY() >= hole && p.getY() <= hole+2) && x == 3) {
                     gameon = false;
                     p.die();
@@ -36,7 +39,7 @@ public class Wall implements Runnable {
                 for (int counter = 0; counter <= 20; counter++) {
                     if (!(hole == counter || hole + 1 == counter || hole + 2 == counter)) {
                         board.moveCursor(x, counter);
-                        board.putCharacter('\u2588');
+                        board.putCharacter('\u2591');
                     }
                 }
                 try {
@@ -56,6 +59,7 @@ public class Wall implements Runnable {
             score++;
                 speed *=0.9;
         }
+        board.clearScreen();
         GameOver.endGame(board, p.getY(), 3, score);
     }
 }

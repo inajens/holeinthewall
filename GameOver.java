@@ -1,6 +1,8 @@
 package com.company;
 
+import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
+
 
 
 public class GameOver {
@@ -11,12 +13,38 @@ public class GameOver {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        board.applyForegroundColor(255, 255, 255);
         PrintBoardGameOver(board);
         String myscore = "Your score is " + score;
-        board.applyForegroundColor(255,255,255);
-        Output.ScreenPrint(5, 16, "Press q to quit or r to reset!", board);
+        Output.ScreenPrint(5, 16, "Press q to quit!", board);
         Output.ScreenPrint(13, 19, myscore, board);
         board.applyForegroundColor(250, 40, 108);
+        printGameOver(board);
+        Key key = null;
+        do{
+            key = board.readInput();
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        while(key == null);
+
+        if(key.getCharacter() == 'q' || key.getCharacter() == 'Q') {
+            board.clearScreen();
+            board.applyForegroundColor(255, 255, 255);
+            Output.ScreenPrint(10,10,"THANK YOU FOR PLAYING", board);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        }
+    }
+    public static void printGameOver (Terminal board){
         board.moveCursor(7, 3);
         board.putCharacter('\u2587');
         board.moveCursor(5, 3);
@@ -221,107 +249,108 @@ public class GameOver {
         board.moveCursor(34, 13);
         board.putCharacter('\u2587');
     }
-    public static void Explosion (int x, int y, Terminal terminal)throws InterruptedException{
-        terminal.moveCursor(x, y);
-        terminal.putCharacter('*');
+    public static void Explosion (int x, int y, Terminal board)throws InterruptedException{
+        board.applyForegroundColor(255,0,0);
+        board.moveCursor(x, y);
+        board.putCharacter('*');
         Thread.sleep(500);
-        terminal.clearScreen();
-        terminal.moveCursor(x+1,y+1);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-1, y-1);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y-1);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-1, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x+1, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y+1);
-        terminal.putCharacter('*');
+        board.clearScreen();
+        board.moveCursor(x+1,y+1);
+        board.putCharacter('*');
+        board.moveCursor(x-1, y-1);
+        board.putCharacter('*');
+        board.moveCursor(x, y-1);
+        board.putCharacter('*');
+        board.moveCursor(x-1, y);
+        board.putCharacter('*');
+        board.moveCursor(x+1, y);
+        board.putCharacter('*');
+        board.moveCursor(x, y+1);
+        board.putCharacter('*');
         Thread.sleep(500);
-        terminal.clearScreen();
-        terminal.moveCursor(x+2,y+2);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-2, y-2);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y-2);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-2, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x+2, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y+2);
-        terminal.putCharacter('*');
+        board.clearScreen();
+        board.moveCursor(x+2,y+2);
+        board.putCharacter('*');
+        board.moveCursor(x-2, y-2);
+        board.putCharacter('*');
+        board.moveCursor(x, y-2);
+        board.putCharacter('*');
+        board.moveCursor(x-2, y);
+        board.putCharacter('*');
+        board.moveCursor(x+2, y);
+        board.putCharacter('*');
+        board.moveCursor(x, y+2);
+        board.putCharacter('*');
         Thread.sleep(500);
-        terminal.clearScreen();
-        terminal.moveCursor(x+3,y+3);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-3, y-3);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y-3);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-3, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x+3, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y+3);
-        terminal.putCharacter('*');
+        board.clearScreen();
+        board.moveCursor(x+3,y+3);
+        board.putCharacter('*');
+        board.moveCursor(x-3, y-3);
+        board.putCharacter('*');
+        board.moveCursor(x, y-3);
+        board.putCharacter('*');
+        board.moveCursor(x-3, y);
+        board.putCharacter('*');
+        board.moveCursor(x+3, y);
+        board.putCharacter('*');
+        board.moveCursor(x, y+3);
+        board.putCharacter('*');
         Thread.sleep(500);
-        terminal.clearScreen();
-        terminal.moveCursor(x+4,y+4);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-4, y-4);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y-4);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-4, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x+4, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y+4);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-1,y+1);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-1, y+1);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y-1);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-1, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x+1, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y+1);
-        terminal.putCharacter('*');
+        board.clearScreen();
+        board.moveCursor(x+4,y+4);
+        board.putCharacter('*');
+        board.moveCursor(x-4, y-4);
+        board.putCharacter('*');
+        board.moveCursor(x, y-4);
+        board.putCharacter('*');
+        board.moveCursor(x-4, y);
+        board.putCharacter('*');
+        board.moveCursor(x+4, y);
+        board.putCharacter('*');
+        board.moveCursor(x, y+4);
+        board.putCharacter('*');
+        board.moveCursor(x-1,y+1);
+        board.putCharacter('*');
+        board.moveCursor(x-1, y+1);
+        board.putCharacter('*');
+        board.moveCursor(x, y-1);
+        board.putCharacter('*');
+        board.moveCursor(x-1, y);
+        board.putCharacter('*');
+        board.moveCursor(x+1, y);
+        board.putCharacter('*');
+        board.moveCursor(x, y+1);
+        board.putCharacter('*');
         Thread.sleep(500);
-        terminal.clearScreen();
-        terminal.moveCursor(x-2,y+2);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-2, y+2);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y-2);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-2, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x+2, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y+2);
-        terminal.putCharacter('*');
+        board.clearScreen();
+        board.moveCursor(x-2,y+2);
+        board.putCharacter('*');
+        board.moveCursor(x-2, y+2);
+        board.putCharacter('*');
+        board.moveCursor(x, y-2);
+        board.putCharacter('*');
+        board.moveCursor(x-2, y);
+        board.putCharacter('*');
+        board.moveCursor(x+2, y);
+        board.putCharacter('*');
+        board.moveCursor(x, y+2);
+        board.putCharacter('*');
         Thread.sleep(500);
-        terminal.clearScreen();
-        terminal.moveCursor(x-3,y+3);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-3, y+3);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y-3);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x-3, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x+3, y);
-        terminal.putCharacter('*');
-        terminal.moveCursor(x, y+3);
-        terminal.putCharacter('*');
+        board.clearScreen();
+        board.moveCursor(x-3,y+3);
+        board.putCharacter('*');
+        board.moveCursor(x-3, y+3);
+        board.putCharacter('*');
+        board.moveCursor(x, y-3);
+        board.putCharacter('*');
+        board.moveCursor(x-3, y);
+        board.putCharacter('*');
+        board.moveCursor(x+3, y);
+        board.putCharacter('*');
+        board.moveCursor(x, y+3);
+        board.putCharacter('*');
         Thread.sleep(500);
-        terminal.clearScreen();
+        board.clearScreen();
 
     }
     public static void PrintBoardGameOver(Terminal terminal){

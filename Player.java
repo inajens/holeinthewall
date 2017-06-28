@@ -30,9 +30,12 @@ public class Player implements Runnable {
 
     public void run() {
         int tempY;
+        board.applyForegroundColor(89,89,89);
         board.moveCursor(x, y);
-        board.putCharacter('O');
+        board.putCharacter('\u265A');
+        boolean otherkeypress;
         while (running) {
+            otherkeypress = false;
             Key key = board.readInput();
             if (key != null) {
                 tempY = y;
@@ -45,13 +48,17 @@ public class Player implements Runnable {
                         if (y > 0)
                             y--;
                         break;
+                    default:
+                        otherkeypress = true;
                 }
+                board.applyForegroundColor(89,89,89);
                 board.moveCursor(x, y);
-                board.putCharacter('O');
-                board.moveCursor(x, tempY);
-                board.putCharacter(' ');
+                board.putCharacter('\u265A');
+                if(!otherkeypress) {
+                    board.moveCursor(x, tempY);
+                    board.putCharacter(' ');
+                }
             }
-
         }
     }
 }
