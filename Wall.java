@@ -18,14 +18,17 @@ public class Wall implements Runnable {
 
     public void run() {
         Random ran = new Random();
+        Random ran2 = new Random();
         int hole;
         int score=0;
         int speed = 100;
         boolean gameon = true;
+        int change = 1;
         //Player endgame = new Player(3,y,board);
         while (gameon) {
             //hole=0;
             hole = ran.nextInt(16);
+            int movingHole = ran.nextInt(10);
             board.applyForegroundColor(255, 255, 255);
             String scoreOutput="Score: " + score;
             Output.ScreenPrint(3,25,scoreOutput,board);
@@ -36,10 +39,20 @@ public class Wall implements Runnable {
                     p.die();
                     break;
                 }
-                for (int counter = 0; counter <= 20; counter++) {
-                    if (!(hole == counter || hole + 1 == counter || hole + 2 == counter)) {
-                        board.moveCursor(x, counter);
-                        board.putCharacter('\u2591');
+                if(movingHole == 1) {
+                    for (int counter = 0; counter <= 20; counter++) {
+                        if (!(hole == counter || hole + 1 == counter || hole + 2 == counter || hole + 3 == counter || hole + 4 == counter)) {
+                            board.moveCursor(x, counter);
+                            board.putCharacter('\u2591');
+                        }
+                    }
+                }
+                else{
+                    for (int counter = 0; counter <= 20; counter++) {
+                        if (!(hole == counter || hole + 1 == counter || hole + 2 == counter)) {
+                            board.moveCursor(x, counter);
+                            board.putCharacter('\u2591');
+                        }
                     }
                 }
                 try {
@@ -53,10 +66,16 @@ public class Wall implements Runnable {
                         board.putCharacter(' ');
                     }
                 }
+                if(movingHole == 1){
+                    hole += change;
+                    if(hole == 19 || hole == 0)
+                        change = (-1)*change;
+                }
             }
             if(!gameon)
                 break;
             score++;
+            if(score%3==0)
                 speed *=0.9;
         }
         board.clearScreen();

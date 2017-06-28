@@ -34,8 +34,10 @@ public class Player implements Runnable {
         board.moveCursor(x, y);
         board.putCharacter('\u265A');
         boolean otherkeypress;
+        boolean donotremove = false;
         while (running) {
             otherkeypress = false;
+            donotremove = false;
             Key key = board.readInput();
             if (key != null) {
                 tempY = y;
@@ -43,10 +45,14 @@ public class Player implements Runnable {
                     case ArrowDown:
                         if (y < 20)
                             y++;
+                        else
+                            donotremove = true;
                         break;
                     case ArrowUp:
                         if (y > 0)
                             y--;
+                        else
+                            donotremove = true;
                         break;
                     default:
                         otherkeypress = true;
@@ -54,7 +60,7 @@ public class Player implements Runnable {
                 board.applyForegroundColor(89,89,89);
                 board.moveCursor(x, y);
                 board.putCharacter('\u265A');
-                if(!otherkeypress) {
+                if(!(otherkeypress) && !donotremove) {
                     board.moveCursor(x, tempY);
                     board.putCharacter(' ');
                 }
